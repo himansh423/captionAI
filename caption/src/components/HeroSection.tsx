@@ -1,5 +1,11 @@
 import { Jaro } from "next/font/google";
-
+import instagram from "../../public/instagram.png";
+import facebook from "../../public/facebook.png";
+import x from "../../public/twitter.png";
+import shorts from "../../public/youtubeShorts.png";
+import linkedin from "../../public/linkedin.png";
+import youtube from "../../public/youtube.png";
+import Image from "next/image";
 const jaro = Jaro({
   subsets: ["latin"],
 });
@@ -8,11 +14,14 @@ const HeroSection = () => {
     <div className="min-h-screen w-screen bg-black border-t-[1px] border-white">
       <form className="w-screen px-5 flex flex-col items-center py-7">
         <div className="w-full text-white flex flex-col gap-6">
-          <p style={{
+          <p
+            style={{
               WebkitTextStroke: "0.1px #8E2DE2", // Outline color
               color: "white", // Inner text fill color
               fontWeight: "bold", // For a Gothic look
-            }} className={`${jaro.className} text-3xl text-center`}>
+            }}
+            className={`${jaro.className} text-3xl text-center`}
+          >
             AI Caption Generator
           </p>
           <textarea
@@ -24,22 +33,64 @@ const HeroSection = () => {
           <p
             className={`${jaro.className} text-4xl text-center`}
             style={{
-              WebkitTextStroke: "0.1px #8E2DE2", // Outline color
-              color: "white", // Inner text fill color
-              fontWeight: "bold", // For a Gothic look
+              WebkitTextStroke: "0.1px #8E2DE2",
+              color: "white",
+              fontWeight: "bold",
             }}
           >
             Select Platform(s)
           </p>
-          <div className="flex flex-wrap gap-4 justify-center w-full">
-            <div className="w-[70px] h-[70px] bg-white"></div>
-            <div className="w-[70px] h-[70px] bg-white"></div>
-            <div className="w-[70px] h-[70px] bg-white"></div>
-            <div className="w-[70px] h-[70px] bg-white"></div>
-            <div className="w-[70px] h-[70px] bg-white"></div>
-            <div className="w-[70px] h-[70px] bg-white"></div>
+          <div className="flex flex-wrap gap-7 justify-center w-full">
+            <div className="w-[70px] h-[70px] relative">
+              <Image
+                src={instagram}
+                alt="instagram"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="w-[70px] h-[70px] relative">
+              <Image
+                src={facebook}
+                alt="instagram"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="w-[70px] h-[70px] relative">
+              <Image src={x} alt="instagram" layout="fill" objectFit="cover" />
+            </div>
+            <div className="w-[70px] flex items-center justify-center   h-[70px] relative">
+              <div className="w-[30px] h-[30px] bg-white absolute left-[50%] translate-x-[-50%]"></div>
+              <Image
+                src={shorts}
+                alt="instagram"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="w-[70px] h-[70px] relative">
+              <Image
+                src={linkedin}
+                alt="instagram"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="w-[70px] h-[70px] relative">
+              <Image
+                src={youtube}
+                alt="instagram"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </div>
         </div>
+
+        <button className="w-full h-[50px] bg-[#8E2DE2] text-white rounded-md mt-5 mb-7">
+          Generate Caption
+        </button>
       </form>
     </div>
   );
