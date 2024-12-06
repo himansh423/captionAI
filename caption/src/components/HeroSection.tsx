@@ -12,7 +12,6 @@ import youtube from "../../public/youtube.png";
 import { RootState } from "@/redux/store";
 import { handleForm, togglePlatform } from "@/redux/formSlice";
 import { Jaro } from "next/font/google";
-import Link from "next/link";
 import { tabAction } from "@/redux/tabSlice";
 
 const jaro = Jaro({ subsets: ["latin"] });

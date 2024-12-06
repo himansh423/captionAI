@@ -58,8 +58,8 @@ Input Content: "${userInput}"
 
 Platform Requirements:
 1. Instagram: 
-   - Aim for 300-500 characters
-   - Use relevant hashtags
+   - Aim for 500-700 characters
+   - Use atleast 15 relevant hashtags
    - Engaging and creative tone
    - Use emojis appropriately
 
@@ -76,7 +76,7 @@ Platform Requirements:
    - Direct and impactful language
 
 4. YouTube Shorts:
-   - Maximum 100 characters
+   - 100 characters Limit 
    - Catchy and descriptive
    - Use hook words
    - Include 1-2 relevant hashtags
@@ -89,7 +89,7 @@ Platform Requirements:
    - Business-oriented language
 
 6. YouTube:
-   - 70 characters for title
+   - 70 characters Limit for title 
    - Descriptive and keyword-rich
    - Clear value proposition
    - Use search-friendly language
