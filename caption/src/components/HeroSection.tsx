@@ -10,11 +10,12 @@ import shorts from "../../public/youtubeShorts.png";
 import linkedin from "../../public/linkedin.png";
 import youtube from "../../public/youtube.png";
 import { RootState } from "@/redux/store";
-import { togglePlatform } from "@/redux/formSlice";
-import {Jaro} from "next/font/google";
+import { handleForm, togglePlatform } from "@/redux/formSlice";
+import { Jaro } from "next/font/google";
+import Link from "next/link";
+import { tabAction } from "@/redux/tabSlice";
 
-
-const jaro = Jaro({subsets:["latin"]})
+const jaro = Jaro({ subsets: ["latin"] });
 
 const HeroSection = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,8 @@ const HeroSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const userInput = inputRef.current?.value || "";
-    console.log("Submitted Data:", {
-      userInput,
-      selectedPlatforms,
-    });
+    dispatch(handleForm({ userInput, selectedPlatforms }));
+    dispatch(tabAction.handleTabCaption());
   };
 
   const handlePlatformClick = (platform: string) => {
@@ -136,9 +135,9 @@ const HeroSection = () => {
         </div>
         <button
           type="submit"
-          className="w-full h-[50px] bg-[#8E2DE2] text-white rounded-md mt-5 mb-7"
+          className="w-full h-[50px] bg-[#8E2DE2] text-white flex justify-center items-center rounded-md mt-5 mb-7"
         >
-          Generate Caption
+          <p>Generate Caption</p>
         </button>
       </form>
     </div>
