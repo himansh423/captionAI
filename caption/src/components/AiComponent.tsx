@@ -21,7 +21,6 @@ const jaro = Jaro({ subsets: ["latin"] });
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY as string;
 
-// Interface for platform-specific captions
 interface PlatformCaptions {
   instagram: string;
   facebook: string;
@@ -44,12 +43,10 @@ export default function AiComponent() {
   const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
   const dispatch = useDispatch();
 
-  //  user input and selected platforms from Redux
   const { userInput, selectedPlatforms } = useSelector(
     (state: RootState) => state.form
   );
 
-  // a comprehensive prompt for the AI
   const constructPrompt = () => {
     return `
 You are a social media expert specializing in creating engaging, platform-specific captions. 
@@ -100,7 +97,6 @@ Please generate captions only for the requested platforms, tailoring the tone, l
 `;
   };
 
-  //  captions using Gemini
   const generateCaptions = useCallback(async () => {
     if (!userInput || selectedPlatforms.length === 0) return;
 
@@ -142,13 +138,9 @@ Please generate captions only for the requested platforms, tailoring the tone, l
         safetySettings,
       });
 
-      // Extracting the generated text
       const text =
         result.response.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-      
-
-      // Parse the response into platform-specific captions
       const parsedCaptions = parseCaptions(text, selectedPlatforms);
       console.log("Parsed Captions:", parsedCaptions);
       setCaptions(parsedCaptions);
@@ -159,7 +151,6 @@ Please generate captions only for the requested platforms, tailoring the tone, l
     }
   }, [userInput, selectedPlatforms]);
 
-  // Parse captions from AI response
   const parseCaptions = (
     text: string,
     platforms: string[]
@@ -188,23 +179,19 @@ Please generate captions only for the requested platforms, tailoring the tone, l
     return defaultCaptions;
   };
 
- 
   useEffect(() => {
     generateCaptions();
   }, [generateCaptions]);
 
-  // Copy caption to clipboard and show modal
   const copyCaption = useCallback((platform: string, caption: string) => {
     navigator.clipboard.writeText(caption);
     setCopiedPlatform(platform);
 
-    // Auto-close modal after 3 seconds
     setTimeout(() => {
       setCopiedPlatform(null);
     }, 3000);
   }, []);
 
-  // Render platform-specific caption sections
   const renderPlatformSection = (
     platform: keyof PlatformCaptions,
     Icon: React.ElementType
@@ -216,9 +203,9 @@ Please generate captions only for the requested platforms, tailoring the tone, l
     return (
       <div
         key={platform}
-        className="w-full min-h-full px-4 flex flex-col gap-6 items-center border-[1px] rounded-md border-[#8E2DE2] py-5"
+        className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] min-h-full px-4 flex flex-col gap-6 items-center border-[1px] rounded-md border-[#8E2DE2] py-5"
       >
-        <div className={`text-4xl flex items-center gap-2`}>
+        <div className="text-2xl sm:text-3xl md:text-4xl flex items-center gap-2">
           <div className="mt-1">
             <Icon />
           </div>
@@ -233,49 +220,49 @@ Please generate captions only for the requested platforms, tailoring the tone, l
             {platform.charAt(0).toUpperCase() + platform.slice(1)}
           </p>
         </div>
-        <p>{caption || "No caption generated"}</p>
-        <div
+        <p className="text-sm sm:text-base">{caption || "No caption generated"}</p>
+        <button
           onClick={() => copyCaption(platform, caption)}
-          className="w-full h-[40px] flex justify-center gap-2 items-center text-white bg-[#8E2DE2] rounded-md cursor-pointer"
+          className="w-full h-[40px] flex justify-center gap-2 items-center text-white bg-[#8E2DE2] rounded-md cursor-pointer hover:bg-[#7B25C3] transition-colors"
         >
           <div className="mt-1">
             <FaRegCopy />
           </div>
           <p>Copy Caption</p>
-        </div>
+        </button>
       </div>
     );
   };
 
   return (
-    <div className="flex min-h-screen flex-col gap-6 items-center border-t-[1px] border-white py-8 w-screen bg-black text-white px-4">
+    <div className="flex min-h-screen flex-col gap-6 items-center border-t-[1px] border-white py-8 w-full bg-black text-white px-4 sm:px-6 lg:px-8">
       {isLoading ? (
-        <div className="text-2xl animate-pulse">Generating captions...</div>
+        <div className="text-xl sm:text-2xl animate-pulse">Generating captions...</div>
       ) : (
-        <>
+        <div className="w-full flex flex-wrap justify-center gap-6">
           {renderPlatformSection("instagram", FaInstagram)}
           {renderPlatformSection("facebook", MdFacebook)}
           {renderPlatformSection("twitter", FaSquareXTwitter)}
           {renderPlatformSection("youtube shorts", SiYoutubeshorts)}
           {renderPlatformSection("linkedin", SiLinkedin)}
           {renderPlatformSection("youtube", ImYoutube)}
-        </>
+        </div>
       )}
 
       <button
         onClick={() => dispatch(tabAction.handleTabHome())}
-        className="w-full h-[45px] flex justify-center items-center text-white bg-[#8E2DE2] rounded-md"
+        className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 h-[45px] flex justify-center items-center text-white bg-[#8E2DE2] rounded-md hover:bg-[#7B25C3] transition-colors"
       >
         <p>Go to Dashboard</p>
       </button>
 
       {copiedPlatform && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 z-50">
           <div className="bg-white text-black p-4 rounded-md shadow-lg transform transition-transform duration-300 ease-in-out">
-            <p>Caption copied for {copiedPlatform}!</p>
+            <p className="text-center">Caption copied for {copiedPlatform}!</p>
             <button
               onClick={() => setCopiedPlatform(null)}
-              className="mt-2 px-4 py-2 bg-[#8E2DE2] text-white rounded-md"
+              className="mt-4 w-full px-4 py-2 bg-[#8E2DE2] text-white rounded-md hover:bg-[#7B25C3] transition-colors"
             >
               Okay
             </button>
@@ -285,4 +272,3 @@ Please generate captions only for the requested platforms, tailoring the tone, l
     </div>
   );
 }
-

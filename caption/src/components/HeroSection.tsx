@@ -1,7 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import instagram from "../../public/instagram.png";
 import facebook from "../../public/facebook.png";
@@ -11,7 +11,7 @@ import linkedin from "../../public/linkedin.png";
 import youtube from "../../public/youtube.png";
 import { RootState } from "@/redux/store";
 import { handleForm, togglePlatform } from "@/redux/formSlice";
-import { Jaro } from "next/font/google";
+import { Jaro } from 'next/font/google';
 import { tabAction } from "@/redux/tabSlice";
 
 const jaro = Jaro({ subsets: ["latin"] });
@@ -21,11 +21,17 @@ const HeroSection = () => {
   const selectedPlatforms = useSelector(
     (state: RootState) => state.form.selectedPlatforms
   );
+  const [error, setError] = useState("");
 
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (selectedPlatforms.length === 0) {
+      setError("Please select at least one platform");
+      return;
+    }
+    setError("");
     const userInput = inputRef.current?.value || "";
     dispatch(handleForm({ userInput, selectedPlatforms }));
     dispatch(tabAction.handleTabCaption());
@@ -33,12 +39,13 @@ const HeroSection = () => {
 
   const handlePlatformClick = (platform: string) => {
     dispatch(togglePlatform(platform));
+    setError("");
   };
 
   return (
-    <div className="min-h-screen w-screen bg-black border-t-[1px] border-white">
+    <div className="min-h-screen w-full bg-black px-4 sm:px-6 lg:px-8">
       <form
-        className="w-screen px-5 flex flex-col items-center py-7"
+        className="max-w-4xl mx-auto flex flex-col items-center py-7"
         onSubmit={handleSubmit}
       >
         <div className="w-full text-white flex flex-col gap-6">
@@ -48,95 +55,58 @@ const HeroSection = () => {
               color: "white",
               fontWeight: "bold",
             }}
-            className={` ${jaro.className} text-3xl text-center`}
+            className={`${jaro.className} text-2xl sm:text-3xl md:text-4xl text-center`}
           >
             AI Caption Generator
           </p>
           <textarea
             ref={inputRef}
-            className="min-h-[200px] rounded-md px-3 py-3 bg-black border-[1px] border-[#8E2DE2] placeholder:text-white shadow-md focus:border-[2px] focus:border-[#8E2DE2] focus:outline-none"
-            placeholder="Input Script Or A line Explaining Your Post...."
+            className="min-h-[150px] sm:min-h-[200px] w-full rounded-md px-3 py-3 bg-black border-[1px] border-[#8E2DE2] text-white placeholder:text-gray-400 shadow-md focus:border-[2px] focus:border-[#8E2DE2] focus:outline-none resize-y"
+            placeholder="Enter your video script or a brief description (1-2 lines) to generate the perfect AI-powered caption!"
           />
         </div>
-        <div className="text-white flex flex-col gap-5 py-10 w-full">
+        <div className="text-white flex flex-col gap-5 py-8 w-full">
           <p
             style={{
               WebkitTextStroke: "0.1px #8E2DE2",
               color: "white",
               fontWeight: "bold",
             }}
-            className={`${jaro.className} text-4xl text-center`}
+            className={`${jaro.className} text-2xl sm:text-3xl md:text-4xl text-center`}
           >
             Select Platform(s)
           </p>
-          <div className="flex flex-wrap gap-7 justify-center w-full">
-            <div
-              onClick={() => handlePlatformClick("instagram")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("instagram")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={instagram} alt="instagram" layout="fill" />
-            </div>
-            <div
-              onClick={() => handlePlatformClick("facebook")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("facebook")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={facebook} alt="facebook" layout="fill" />
-            </div>
-            <div
-              onClick={() => handlePlatformClick("twitter")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("twitter")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={x} alt="Twitter(x)" layout="fill" />
-            </div>
-            <div
-              onClick={() => handlePlatformClick("youtube shorts")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("youtube shorts")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={shorts} alt="youtube shorts" layout="fill" />
-            </div>
-            <div
-              onClick={() => handlePlatformClick("linkedin")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("linkedin")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={linkedin} alt="linkedin" layout="fill" />
-            </div>
-            <div
-              onClick={() => handlePlatformClick("youtube")}
-              className={`cursor-pointer w-[70px] h-[70px] relative ${
-                selectedPlatforms.includes("youtube")
-                  ? "border-2 border-[#8E2DE2] rounded-md"
-                  : ""
-              }`}
-            >
-              <Image src={youtube} alt="youtube" layout="fill" />
-            </div>
+          <div className="flex flex-wrap gap-4 sm:gap-6 justify-center w-full">
+            {[
+              { name: "instagram", src: instagram },
+              { name: "facebook", src: facebook },
+              { name: "twitter", src: x },
+              { name: "youtube shorts", src: shorts },
+              { name: "linkedin", src: linkedin },
+              { name: "youtube", src: youtube },
+            ].map((platform) => (
+              <div
+                key={platform.name}
+                onClick={() => handlePlatformClick(platform.name)}
+                className={`cursor-pointer w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] relative ${
+                  selectedPlatforms.includes(platform.name)
+                    ? "border-2 border-[#8E2DE2] rounded-md"
+                    : ""
+                }`}
+              >
+                <Image src={platform.src} alt={platform.name} layout="fill" />
+              </div>
+            ))}
           </div>
         </div>
+        {error && (
+          <p className="text-red-500 text-sm mb-4">{error}</p>
+        )}
         <button
           type="submit"
-          className="w-full h-[50px] bg-[#8E2DE2] text-white flex justify-center items-center rounded-md mt-5 mb-7"
+          className="w-full sm:w-2/3 md:w-1/2 h-[50px] bg-[#8E2DE2] text-white flex justify-center items-center rounded-md mt-5 mb-7 hover:bg-[#7B25C3] transition-colors"
         >
-          <p>Generate Caption</p>
+          <p className="text-lg">Generate Caption</p>
         </button>
       </form>
     </div>

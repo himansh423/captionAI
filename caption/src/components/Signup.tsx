@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Jaro } from 'next/font/google';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import Link from "next/link";
 
 const jaro = Jaro({ subsets: ["latin"] });
 
@@ -219,6 +220,14 @@ export default function SignupForm() {
               : "Verify OTP"}
           </button>
         </form>
+        <div className="text-center mt-4">
+        <p className="text-zinc-400 text-sm sm:text-base">
+          Already have an account?{" "}
+          <Link href="/login" className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold">
+            Login
+          </Link>
+        </p>
+      </div>
         {otpVerified && (
           <div className="text-green-500 text-sm sm:text-base text-center">
             OTP verified successfully!

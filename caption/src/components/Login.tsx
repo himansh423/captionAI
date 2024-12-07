@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Jaro } from 'next/font/google'
 import axios from "axios"
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"
+import Link from "next/link"
 
 const jaro = Jaro({ subsets: ["latin"] })
 
@@ -126,6 +127,14 @@ export default function LoginPage() {
             {isLoading ? "Logging in..." : "Log in"}
           </button>
         </form>
+        <div className="text-center mt-4">
+        <p className="text-zinc-400 text-sm sm:text-base">
+          Don't have an account?{" "}
+          <Link href="/sign-up" className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold">
+            Sign up
+          </Link>
+        </p>
+      </div>
       </div>
     </div>
   )
