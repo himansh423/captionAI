@@ -131,8 +131,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, message: "OTP sent to your email" }, { status: 200 });
   } catch (error) {
     if(error instanceof Error){
-      console.log(error)
+      return NextResponse.json({ message: "Server error", error:  error }, { status: 500 });
     }
-    return NextResponse.json({ message: "Server error", error:  "An unknown error occurred" }, { status: 500 });
+   
   }
 } 
