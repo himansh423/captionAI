@@ -44,12 +44,12 @@ export default function AiComponent() {
   const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
   const dispatch = useDispatch();
 
-  // Get user input and selected platforms from Redux
+  //  user input and selected platforms from Redux
   const { userInput, selectedPlatforms } = useSelector(
     (state: RootState) => state.form
   );
 
-  // Construct a comprehensive prompt for the AI
+  // a comprehensive prompt for the AI
   const constructPrompt = () => {
     return `
 You are a social media expert specializing in creating engaging, platform-specific captions. 
@@ -100,7 +100,7 @@ Please generate captions only for the requested platforms, tailoring the tone, l
 `;
   };
 
-  // Generate captions using Gemini
+  //  captions using Gemini
   const generateCaptions = useCallback(async () => {
     if (!userInput || selectedPlatforms.length === 0) return;
 
@@ -142,12 +142,11 @@ Please generate captions only for the requested platforms, tailoring the tone, l
         safetySettings,
       });
 
-      // Extract the generated text
+      // Extracting the generated text
       const text =
         result.response.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-      // Debugging: Log the response
-      console.log("AI Response Text:", text);
+      
 
       // Parse the response into platform-specific captions
       const parsedCaptions = parseCaptions(text, selectedPlatforms);
@@ -189,7 +188,7 @@ Please generate captions only for the requested platforms, tailoring the tone, l
     return defaultCaptions;
   };
 
-  // Generate captions when component mounts or input changes
+ 
   useEffect(() => {
     generateCaptions();
   }, [generateCaptions]);
