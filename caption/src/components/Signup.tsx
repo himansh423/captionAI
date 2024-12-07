@@ -190,7 +190,7 @@ export default function SignupForm() {
           )}
           {step === 2 && (
             <div>
-              <label htmlFor="otp" className="block text-white text-sm sm:text-base mb-1">
+              <label htmlFor="otp" className="block text-white text-sm  sm:text-base mb-1">
                 Enter OTP
               </label>
               <input
@@ -200,7 +200,7 @@ export default function SignupForm() {
                 value={formData.otp}
                 onChange={handleInputChange}
                 placeholder="Enter 6-digit OTP"
-                className="h-11 w-full bg-zinc-800 text-white border border-zinc-700 focus:border-[#8E2DE2] focus:ring-1 focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
+                className="h-11 w-full text-center bg-zinc-800 text-white border border-zinc-700 focus:border-[#8E2DE2] focus:ring-1 focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
                 required
                 maxLength={6}
               />
