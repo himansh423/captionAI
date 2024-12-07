@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import connectToDatabase from "@/library/db";
 import { NextResponse } from "next/server";
-import cookie from "cookie"; 
+import { serialize } from "cookie"; // Correct import for 'serialize'
 import User from "@/library/modals/User";
 
-const JWT_SECRET = process.env.JWT_SECRET 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 export async function POST(req: Request) {
   await connectToDatabase();
 
@@ -30,17 +31,27 @@ export async function POST(req: Request) {
       { expiresIn: "7d" } // Token expires in 7 days
     );
 
-    const response = NextResponse.json({ success: true, message: "OTP verified, login successful" }, { status: 200 });
-    response.headers.set('Set-Cookie', cookie.serialize("token", token, {
+    // Set cookie with serialized token
+    const serializedCookie = serialize("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60, // 7 days
       sameSite: "strict",
       path: "/",
-    }));
+    });
+
+    const response = NextResponse.json(
+      { success: true, message: "OTP verified, login successful" },
+      { status: 200 }
+    );
+
+    response.headers.set("Set-Cookie", serializedCookie);
 
     return response;
   } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+    }
     return NextResponse.json({ message: "Server error", error: "An unknown error occurred" }, { status: 500 });
   }
 }

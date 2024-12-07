@@ -1,52 +1,47 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Jaro } from 'next/font/google'
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import axios from "axios"
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"
 
 const jaro = Jaro({ subsets: ["latin"] })
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters long.",
-  }),
-})
-
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+  const [error, setError] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
   })
+  const router = useRouter()
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      console.log(values)
+    setError(null)
+
+    try {
+      const response = await axios.post("/api/auth/login", formData)
+      console.log("Login successful:", response.data)
+      // Redirect to home page or dashboard
+      router.push("/")
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.message || "An error occurred during login.")
+      } else {
+        setError("An unexpected error occurred. Please try again.")
+      }
+    } finally {
       setIsLoading(false)
-    }, 2000)
+    }
   }
 
   const togglePasswordVisibility = () => {
@@ -70,69 +65,67 @@ export default function LoginPage() {
             Log in to your account
           </h2>
         </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white text-sm sm:text-base">Email address</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        placeholder="Enter your email"
-                        {...field}
-                        className="pl-10 h-11 bg-zinc-800 text-white border-zinc-700 focus:border-[#8E2DE2] focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
-                      />
-                      <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm sm:text-base" />
-                    </div>
-                  </FormControl>
-                  <FormMessage className="text-xs sm:text-sm" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white text-sm sm:text-base">Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        {...field}
-                        className="pl-10 pr-10 h-11 bg-zinc-800 text-white border-zinc-700 focus:border-[#8E2DE2] focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
-                      />
-                      <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm sm:text-base" />
-                      <button
-                        type="button"
-                        onClick={togglePasswordVisibility}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-300 focus:outline-none transition-colors"
-                      >
-                        {showPassword ? (
-                          <FaEyeSlash className="text-sm sm:text-base" />
-                        ) : (
-                          <FaEye className="text-sm sm:text-base" />
-                        )}
-                      </button>
-                    </div>
-                  </FormControl>
-                  <FormMessage className="text-xs sm:text-sm" />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full h-11 bg-[#8E2DE2] hover:bg-[#7B25C3] text-white font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8E2DE2] focus:ring-offset-2 focus:ring-offset-zinc-900 transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isLoading}
-            >
-              {isLoading ? "Logging in..." : "Log in"}
-            </Button>
-          </form>
-        </Form>
+        {error && (
+          <div className="text-red-500 text-sm sm:text-base text-center">
+            {error}
+          </div>
+        )}
+        <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
+          <div>
+            <label htmlFor="email" className="block text-white text-sm sm:text-base mb-1">
+              Email address
+            </label>
+            <div className="relative">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Enter your email"
+                className="pl-10 h-11 w-full bg-zinc-800 text-white border border-zinc-700 focus:border-[#8E2DE2] focus:ring-1 focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
+                required
+              />
+              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm sm:text-base" />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-white text-sm sm:text-base mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Enter your password"
+                className="pl-10 pr-10 h-11 w-full bg-zinc-800 text-white border border-zinc-700 focus:border-[#8E2DE2] focus:ring-1 focus:ring-[#8E2DE2] text-sm sm:text-base rounded-lg"
+                required
+              />
+              <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm sm:text-base" />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-300 focus:outline-none transition-colors"
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="text-sm sm:text-base" />
+                ) : (
+                  <FaEye className="text-sm sm:text-base" />
+                )}
+              </button>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full h-11 bg-[#8E2DE2] hover:bg-[#7B25C3] text-white font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8E2DE2] focus:ring-offset-2 focus:ring-offset-zinc-900 transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Log in"}
+          </button>
+        </form>
       </div>
     </div>
   )
