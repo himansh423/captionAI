@@ -67,7 +67,6 @@ export default function SignupForm() {
         email: formData.email,
         otp: formData.otp,
       });
-      console.log("API response:", response.data);
       if (response.data.success) {
         setOtpVerified(true);
         router.push("/"); // Redirect to home page after successful verification

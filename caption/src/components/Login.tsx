@@ -1,65 +1,74 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Jaro } from 'next/font/google'
-import axios from "axios"
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"
-import Link from "next/link"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Jaro } from "next/font/google";
+import axios from "axios";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import Link from "next/link";
 
-const jaro = Jaro({ subsets: ["latin"] })
+const jaro = Jaro({ subsets: ["latin"] });
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  })
-  const router = useRouter()
+  });
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError(null)
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const response = await axios.post("/api/auth/login", formData)
-      console.log("Login successful:", response.data)
-      // Redirect to home page or dashboard
-      router.push("/")
+      const response = await axios.post("/api/auth/login", formData);
+      if (response.data.success) {
+        // Redirect to home page or dashboard
+        router.push("/");
+      }
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message || "An error occurred during login.")
+        setError(
+          err.response.data.message || "An error occurred during login."
+        );
       } else {
-        setError("An unexpected error occurred. Please try again.")
+        setError("An unexpected error occurred. Please try again.");
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
-    <div className={`flex min-h-screen flex-col items-center gap-14 bg-black px-4 sm:px-6 lg:px-8 ${jaro.className}`}>
-      <p className="text-3xl sm:text-3xl font-bold text-white mt-8"
-            style={{ 
-              WebkitTextStroke: "0.25px #8E2DE2",
-            }}>AI Caption Generator</p>
+    <div
+      className={`flex min-h-screen flex-col items-center gap-14 bg-black px-4 sm:px-6 lg:px-8 ${jaro.className}`}
+    >
+      <p
+        className="text-3xl sm:text-3xl font-bold text-white mt-8"
+        style={{
+          WebkitTextStroke: "0.25px #8E2DE2",
+        }}
+      >
+        AI Caption Generator
+      </p>
       <div className="w-full max-w-[380px] space-y-6 rounded-xl bg-zinc-900 p-4 sm:p-6 md:p-8 shadow-lg">
         <div className="text-center">
-          <h2 
+          <h2
             className="text-2xl sm:text-3xl font-bold text-white"
-            style={{ 
+            style={{
               WebkitTextStroke: "0.25px #8E2DE2",
             }}
           >
@@ -73,7 +82,10 @@ export default function LoginPage() {
         )}
         <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
           <div>
-            <label htmlFor="email" className="block text-white text-sm sm:text-base mb-1">
+            <label
+              htmlFor="email"
+              className="block text-white text-sm sm:text-base mb-1"
+            >
               Email address
             </label>
             <div className="relative">
@@ -91,7 +103,10 @@ export default function LoginPage() {
             </div>
           </div>
           <div>
-            <label htmlFor="password" className="block text-white text-sm sm:text-base mb-1">
+            <label
+              htmlFor="password"
+              className="block text-white text-sm sm:text-base mb-1"
+            >
               Password
             </label>
             <div className="relative">
@@ -128,15 +143,17 @@ export default function LoginPage() {
           </button>
         </form>
         <div className="text-center mt-4">
-        <p className="text-zinc-400 text-sm sm:text-base">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold">
-            Sign up
-          </Link>
-        </p>
-      </div>
+          <p className="text-zinc-400 text-sm sm:text-base">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/sign-up"
+              className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
-  )
+  );
 }
-
