@@ -56,35 +56,35 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://www.booleanix.com/" />
-        <Script id="breadcrumb-schema" type="application/ld+json">
-          {JSON.stringify(breadcrumbSchema)}
-        </Script>
-        <meta property="og:title" content="Booleanix - AI Caption Generator" />
-        <meta property="og:site_name" content="Booleanix" />
-        <meta property="og:url" content="https://www.booleanix.com" />
-        <meta
-          property="og:description"
-          content="Booleanix is an AI-powered platform that simplifies caption creation, delivering creative captions for social media, marketing, and personal use."
-        />
-        <meta property="og:type" content="website">
-          <meta
-            property="og:image"
-            content="https://www.booleanix.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.958c6f9f.png&w=1920&q=75"
-          />
-        </meta>
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@booleanix" />
-        <meta name="twitter:title" content="Booleanix - AI Caption Generator" />
-        <meta
-          name="twitter:description"
-          content="Booleanix is an AI-powered platform that simplifies caption creation, delivering creative captions for social media, marketing, and personal use."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.booleanix.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.958c6f9f.png&w=1920&q=75"
-        />
-      </head>
+  <link rel="canonical" href="https://www.booleanix.com/" />
+  <Script id="breadcrumb-schema" type="application/ld+json">
+    {JSON.stringify(breadcrumbSchema)}
+  </Script>
+  <meta property="og:title" content="Booleanix - AI Caption Generator" />
+  <meta property="og:site_name" content="Booleanix" />
+  <meta property="og:url" content="https://www.booleanix.com" />
+  <meta
+    property="og:description"
+    content="Booleanix is an AI-powered platform that simplifies caption creation, delivering creative captions for social media, marketing, and personal use."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:image"
+    content="https://www.booleanix.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.958c6f9f.png&w=1920&q=75"
+  />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@booleanix" />
+  <meta name="twitter:title" content="Booleanix - AI Caption Generator" />
+  <meta
+    name="twitter:description"
+    content="Booleanix is an AI-powered platform that simplifies caption creation, delivering creative captions for social media, marketing, and personal use."
+  />
+  <meta
+    name="twitter:image"
+    content="https://www.booleanix.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.958c6f9f.png&w=1920&q=75"
+  />
+</head>
+
       <body>
         <Providers>
           <Navbar />
