@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import connectToDatabase from "@/library/db";
 import { NextResponse } from "next/server";
-import { serialize } from "cookie"; // Correct import for 'serialize'
+import { serialize } from "cookie";
 import User from "@/library/modals/User";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -12,26 +12,26 @@ export async function POST(req: Request) {
   try {
     const { email, otp } = await req.json();
 
-    // Find the user with the matching email and otp
+    // Finding the user with the matching email and otp
     const user = await User.findOne({ email, otp });
 
     if (!user) {
       return NextResponse.json({ success: false, message: "Invalid OTP" }, { status: 400 });
     }
 
-    // Mark user as verified
+    // Marking user as verified
     user.isVerified = true;
-    user.otp = undefined; // Clear OTP after successful verification
+    user.otp = undefined; 
     await user.save();
 
-    // Generate JWT token with username, email, and hashed password
+    // Generating JWT token with username, email, and hashed password
     const token = jwt.sign(
       { userId: user._id, username: user.username, email: user.email, password: user.password },
       JWT_SECRET as string,
-      { expiresIn: "7d" } // Token expires in 7 days
+      { expiresIn: "7d" } 
     );
 
-    // Set cookie with serialized token
+  
     const serializedCookie = serialize("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

@@ -73,7 +73,7 @@ Platform Requirements:
    - Direct and impactful language
 
 4. YouTube Shorts:
-   - 100 characters Limit 
+   - 70 characters Limit 
    - Catchy and descriptive
    - Use hook words
    - Include 1-2 relevant hashtags
@@ -142,7 +142,7 @@ Please generate captions only for the requested platforms, tailoring the tone, l
         result.response.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
       const parsedCaptions = parseCaptions(text, selectedPlatforms);
-      console.log("Parsed Captions:", parsedCaptions);
+     
       setCaptions(parsedCaptions);
     } catch (error) {
       console.error("Error generating captions:", error);

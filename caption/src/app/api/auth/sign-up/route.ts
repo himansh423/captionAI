@@ -66,7 +66,7 @@ export async function POST(req: Request) {
             </tr>
             <tr>
               <td style="background-color: #4B0082; padding: 20px; text-align: center;">
-                <p style="margin: 0; font-size: 14px; color: #FFFFFF;">&copy; 2023 Booleanix. All rights reserved.</p>
+                <p style="margin: 0; font-size: 14px; color: #FFFFFF;">&copy; 2024 Booleanix. All rights reserved.</p>
               </td>
             </tr>
           </table>

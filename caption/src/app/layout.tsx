@@ -5,8 +5,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Captiony",
-  description: "AI captionn generator",
+  title: "Booleanix - AI Caption Generator",
+  description:
+    "Booleanix is an AI-powered platform that simplifies caption creation, delivering creative captions for social media, marketing, and personal use.",
 };
 
 export default function RootLayout({
@@ -18,7 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-        <Navbar/>{children}<Footer/></Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

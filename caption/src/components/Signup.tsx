@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Jaro } from 'next/font/google';
+import { Jaro } from "next/font/google";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
 
@@ -13,7 +13,6 @@ export default function SignupForm() {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -39,16 +38,16 @@ export default function SignupForm() {
         email: formData.email,
         password: formData.password,
       });
-      console.log("API response:", response.data);
       if (response.data.success) {
         setStep(2);
       } else {
         setError(response.data.message || "Failed to generate OTP");
       }
     } catch (err) {
-      console.error("Error generating OTP:", err);
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message || "An error occurred. Please try again.");
+        setError(
+          err.response.data.message || "An error occurred. Please try again."
+        );
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
@@ -59,7 +58,10 @@ export default function SignupForm() {
 
   const verifyOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Verifying OTP for:", { email: formData.email, otp: formData.otp });
+    console.log("Verifying OTP for:", {
+      email: formData.email,
+      otp: formData.otp,
+    });
     setIsLoading(true);
     setError(null);
     try {
@@ -68,15 +70,17 @@ export default function SignupForm() {
         otp: formData.otp,
       });
       if (response.data.success) {
-        setOtpVerified(true);
-        router.push("/"); // Redirect to home page after successful verification
+        router.push("/");
+        return;
       } else {
         setError(response.data.message || "Failed to verify OTP");
       }
     } catch (err) {
       console.error("Error verifying OTP:", err);
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message || "An error occurred. Please try again.");
+        setError(
+          err.response.data.message || "An error occurred. Please try again."
+        );
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
@@ -90,7 +94,9 @@ export default function SignupForm() {
   };
 
   return (
-    <div className={`flex min-h-screen flex-col gap-10 bg-black px-4 sm:px-6 lg:px-8 ${jaro.className}`}>
+    <div
+      className={`flex min-h-screen flex-col gap-10 bg-black px-4 sm:px-6 lg:px-8 ${jaro.className}`}
+    >
       <p
         className="text-3xl sm:text-3xl font-bold text-white mt-10 text-center"
         style={{
@@ -115,11 +121,17 @@ export default function SignupForm() {
             {error}
           </div>
         )}
-        <form onSubmit={step === 1 ? generateOTP : verifyOTP} className="space-y-4 sm:space-y-6">
+        <form
+          onSubmit={step === 1 ? generateOTP : verifyOTP}
+          className="space-y-4 sm:space-y-6"
+        >
           {step === 1 && (
             <>
               <div>
-                <label htmlFor="name" className="block text-white text-sm sm:text-base mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-white text-sm sm:text-base mb-1"
+                >
                   Name
                 </label>
                 <div className="relative">
@@ -138,7 +150,10 @@ export default function SignupForm() {
                 </div>
               </div>
               <div>
-                <label htmlFor="email" className="block text-white text-sm sm:text-base mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-white text-sm sm:text-base mb-1"
+                >
                   Email address
                 </label>
                 <div className="relative">
@@ -156,7 +171,10 @@ export default function SignupForm() {
                 </div>
               </div>
               <div>
-                <label htmlFor="password" className="block text-white text-sm sm:text-base mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-white text-sm sm:text-base mb-1"
+                >
                   Password
                 </label>
                 <div className="relative">
@@ -189,7 +207,10 @@ export default function SignupForm() {
           )}
           {step === 2 && (
             <div>
-              <label htmlFor="otp" className="block text-white text-sm  sm:text-base mb-1">
+              <label
+                htmlFor="otp"
+                className="block text-white text-sm  sm:text-base mb-1"
+              >
                 Enter OTP
               </label>
               <input
@@ -220,20 +241,17 @@ export default function SignupForm() {
           </button>
         </form>
         <div className="text-center mt-4">
-        <p className="text-zinc-400 text-sm sm:text-base">
-          Already have an account?{" "}
-          <Link href="/login" className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold">
-            Login
-          </Link>
-        </p>
-      </div>
-        {otpVerified && (
-          <div className="text-green-500 text-sm sm:text-base text-center">
-            OTP verified successfully!
-          </div>
-        )}
+          <p className="text-zinc-400 text-sm sm:text-base">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="text-[#8E2DE2] hover:text-[#7B25C3] font-semibold"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
-

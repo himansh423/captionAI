@@ -32,7 +32,6 @@ export default function LoginPage() {
     try {
       const response = await axios.post("/api/auth/login", formData);
       if (response.data.success) {
-        // Redirect to home page or dashboard
         router.push("/");
       }
     } catch (err) {
