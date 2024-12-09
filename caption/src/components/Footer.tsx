@@ -21,7 +21,7 @@ const Footer = () => {
               Terms & Conditions
             </Link>
             <Link
-              href="/terms-and-conditions"
+              href="/contact-us"
               className="hover:text-[#8E2DE2] transition-colors"
             >
               Contact Us
