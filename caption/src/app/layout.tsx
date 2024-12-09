@@ -17,6 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <link rel="canonical" href="https://www.booleanix.com/" />
+      </head>
       <body>
         <Providers>
           <Navbar />

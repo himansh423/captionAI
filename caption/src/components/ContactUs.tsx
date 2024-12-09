@@ -134,22 +134,25 @@ export default function ContactUs() {
         <div className="text-white text-center mt-8">
           <h2 className={`${jaro.className} text-2xl mb-4`}>Connect With Us</h2>
           <div className="flex justify-center space-x-4">
-            {[
-              { name: "instagram", src: instagram },
-              { name: "facebook", src: facebook },
-              { name: "twitter", src: x },
-              { name: "linkedin", src: linkedin },
-            ].map((platform) => (
-              <a
-                key={platform.name}
-                href={`https://www.${platform.name}.com/your-profile`}
+          <a
+                
+                href={"https://www.instagram.com/booleanix/"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-[40px] h-[40px] relative"
               >
-                <Image src={platform.src} alt={platform.name} layout="fill" />
+                <Image src={instagram.src} alt={"instagram"} layout="fill" />
               </a>
-            ))}
+              <a
+                
+                href={"https://twitter.com/booleanix"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-[40px] h-[40px] relative"
+              >
+                <Image src={x.src} alt={"twitter(x)"} layout="fill" />
+              </a>
+              
           </div>
         </div>
       </div>

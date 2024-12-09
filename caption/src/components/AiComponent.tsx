@@ -67,13 +67,13 @@ Platform Requirements:
    - Include relevant hashtags
 
 3. Twitter (X):
-   - Strict 270 characters limit
+   - Strictly 270 characters limit
    - Concise and punchy
    - Use trending hashtags
    - Direct and impactful language
 
 4. YouTube Shorts:
-   - 70 characters Limit 
+   - Strictly 70 characters Limit 
    - Catchy and descriptive
    - Use hook words
    - Include 1-2 relevant hashtags
@@ -86,7 +86,7 @@ Platform Requirements:
    - Business-oriented language
 
 6. YouTube:
-   - 70 characters Limit for title 
+   - Strictly 70 characters Limit for title 
    - Descriptive and keyword-rich
    - Clear value proposition
    - Use search-friendly language

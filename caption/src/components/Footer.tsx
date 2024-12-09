@@ -20,6 +20,12 @@ const Footer = () => {
             >
               Terms & Conditions
             </Link>
+            <Link
+              href="/terms-and-conditions"
+              className="hover:text-[#8E2DE2] transition-colors"
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
         <div className="mt-8 text-center text-sm text-gray-400">
