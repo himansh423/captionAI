@@ -3,10 +3,10 @@ import ContactForm from "@/library/modals/ContactForm";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export async function POST(req: any) {
+export async function POST(req: Request) {
   connectToDatabase();
   const payload = await req.json();
-  let formData = new ContactForm(payload);
+  const formData = new ContactForm(payload);
 
   const result = await formData.save();
 

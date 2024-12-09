@@ -10,7 +10,7 @@ const page = () => {
 }
 
 
-export function generateMetadata({ params }: any) {
+export function generateMetadata() {
   return {
     title: "Privacy Policy - Booleanix AI Caption Generator",
     description:

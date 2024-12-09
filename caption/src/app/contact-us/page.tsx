@@ -9,7 +9,7 @@ const page = () => {
   )
 }
 
-export function generateMetadata({ params }: any) {
+export function generateMetadata() {
   return {
     title: "Contact Us - Booleanix AI Caption Generator",
     description:

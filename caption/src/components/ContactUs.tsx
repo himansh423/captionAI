@@ -5,9 +5,8 @@ import Image from "next/image";
 import { Jaro } from 'next/font/google';
 import axios from 'axios';
 import instagram from "../../public/instagram.png";
-import facebook from "../../public/facebook.png";
 import x from "../../public/twitter.png";
-import linkedin from "../../public/linkedin.png";
+
 
 const jaro = Jaro({ subsets: ["latin"] });
 
@@ -160,7 +159,7 @@ export default function ContactUs() {
       {showSuccessModal && (
         <Modal onClose={() => setShowSuccessModal(false)}>
           <h2 className={`${jaro.className} text-2xl text-white mb-4`}>Success!</h2>
-          <p className="text-white">Your message has been sent successfully. We'll get back to you soon.</p>
+          <p className="text-white">Your message has been sent successfully. We&apos;ll get back to you soon.</p>
         </Modal>
       )}
 
